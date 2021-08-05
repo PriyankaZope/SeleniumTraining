@@ -3,8 +3,10 @@ package com.Seleniumeasy;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -74,27 +76,89 @@ public class SeleniumEasy {
 		this.clickAllHeaderOnTopupMenu(strTopUpValue);
 		this.dropDownValue(strDropDownValue);
 	}
-	public void checkHeaderOfSimpleFormDemoPage(){
+
+	public void verifyHeaderOfSimpleFormDemoPage() {
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
 		By locator = By.xpath("//h3[text()='This would be your first example to start with Selenium.']");
-	WebElement element =	driver.findElement(locator);
-	String strheaderofSimpleFormDemo = element.getText();
-	System.out.println("Header of 'Simple Form Demo' : "+strheaderofSimpleFormDemo);
-	
+		boolean element = driver.findElement(locator).isDisplayed();
+		if (element) {
+			System.out.println("Simple Form Demo Page is opened");
+		}
+		/*
+		 * String strheaderofSimpleFormDemo = element.getText();
+		 * System.out.println("Header of 'Simple Form Demo' : "
+		 * +strheaderofSimpleFormDemo);
+		 */
 	}
-	
-	public void sendMessageToSingleInputField(String strmessage){
-		driver.findElement(By.xpath("//input[@id='user-message']")).sendKeys(strmessage);
+
+	public void checkHeaderOfSingleInputField() {
+		By locator = By.xpath("//div[text()='Single Input Field']");
+		boolean element = driver.findElement(locator).isDisplayed();
+		if (element) {
+			System.out.println(driver.findElement(locator).getText());
+		} else
+			System.out.println("Single Input Field is not there");
+
+	}
+
+	public void setMessageForSingleInputField(String strMessage) {
+		driver.findElement(By.xpath("//input[@id='user-message']")).sendKeys(strMessage);
 		driver.findElement(By.xpath("//button[text()='Show Message']")).click();
-		String strmsg = driver.findElement(By.xpath("//span[@id='display']")).getText();
-		System.out.println("Display Message : "+strmsg);
+
 	}
+
+	public void verifyMessageInSingleInputField(String strExpectedMessage) {
+		String strActualMessage = driver.findElement(By.xpath("//span[@id='display']")).getText();
+
+		if (strActualMessage.equals(strExpectedMessage)) {
+			System.out.println("Message is passed !!!");
+		} else
+			System.out.println("Message is failed !!!");
+
+	}
+
 	
-	public void getTotalInTwoInputField(String num1 , String num2){
-		driver.findElement(By.xpath("//input[@id='sum1']")).sendKeys(num1);
-		driver.findElement(By.xpath("//input[@id='sum2']")).sendKeys(num2);
+	public void verifyTwoInputFieldsHeader() {
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,300)", "");
+
+		
+		By locator = By.xpath("//div[text()='Two Input Fields']");
+		boolean element = driver.findElement(locator).isDisplayed();
+		if (element) {
+			System.out.println(driver.findElement(locator).getText());
+		} else
+			System.out.println("Two Input Fields is not there");
+
+	}
+
+	public void setValuesOfAAndBInTwoInputField(String strValue, String num) {
+		By locator = By.xpath("//form[@id='gettotal']//label[text()='" + strValue + "']/following-sibling::input[1]");
+		driver.findElement(locator).sendKeys(num);
+
+	}
+
+	public void clickOnGetTotal() {
 		driver.findElement(By.xpath("//button[text()='Get Total']")).click();
-		String strActualSum = driver.findElement(By.xpath("//span[@id='displayvalue']")).getText();
-        System.out.println("Sum of Numbers for 'Two Input Field' : " + strActualSum);
+	}
+
+	public String getTotal() {
+		String strTotal = driver.findElement(By.xpath("//span[@id='displayvalue']")).getText();
+		return strTotal;
+	}
+
+	public void verifyTotal(String strValueA, String strValueB) {
+
+		int intTotal = Integer.parseInt(strValueA) + Integer.parseInt(strValueB);
+		String strActualTotal = this.getTotal();
+		if (intTotal == Integer.parseInt(strActualTotal)) {
+			System.out.println("Got the Total");
+		} else
+			System.out.println("Wrong Total");
+
 	}
 	
+
 }
