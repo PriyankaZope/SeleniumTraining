@@ -55,6 +55,17 @@ public class BaseTest {
 	}
 	
 }
+	public boolean click(By locator){
+		try {
+			this.checkElementDisplayed(locator);
+			WebElement webElement = this.getDriver().findElement(locator);
+			webElement.click();
+			return true;
+		} catch (Exception exception) {
+			System.out.println("I got Exception : "+exception.getMessage());
+			return false;
+		}	
+	}
 
 	public void tearDownEnvironment(){
 		driver.quit();
