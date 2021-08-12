@@ -40,8 +40,13 @@ public class BaseTest {
 		return driver;
 		
 	}
+	public void checkElementVisibility(By locator,int timeUnitInSecond) {
+		WebDriverWait wait = new WebDriverWait(this.getDriver(), timeUnitInSecond);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+	}
 	
-	public boolean checkElementDisplayed(By locator){
+	public boolean checkMessageDisplayed(By locator){
 		boolean blnFlag=false;
 	try {
 		 WebDriverWait wait = new WebDriverWait(this.getDriver(), 5);
@@ -55,17 +60,7 @@ public class BaseTest {
 	}
 	
 }
-	public boolean click(By locator){
-		try {
-			this.checkElementDisplayed(locator);
-			WebElement webElement = this.getDriver().findElement(locator);
-			webElement.click();
-			return true;
-		} catch (Exception exception) {
-			System.out.println("I got Exception : "+exception.getMessage());
-			return false;
-		}	
-	}
+	
 
 	public void tearDownEnvironment(){
 		driver.quit();

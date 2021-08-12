@@ -1,15 +1,19 @@
 package com.TestNG;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class BootstrapAlert {
 	public boolean blnValue = false;
 	private BaseTest objBaseTest;
 	public Properties objconfig;
+
+	
 
 	public BootstrapAlert(BaseTest baseTest) {
 		this.objBaseTest = baseTest;
@@ -46,7 +50,7 @@ public class BootstrapAlert {
 
 		By locator = By.xpath("//h2[text()='Bootstrap Alert messages']");
 
-		objBaseTest.checkElementDisplayed(locator);
+		objBaseTest.checkMessageDisplayed(locator);
 		String strActualHdr = objBaseTest.getDriver().findElement(locator).getText();
 		System.out.println("Header of checkbox demo page : " + strActualHdr);
 		Assert.assertTrue(strActualHdr.equals(strExpectedHdr));
@@ -74,7 +78,6 @@ public class BootstrapAlert {
 	public void verifyAutoclosableSuccessMessage(String strExpectedMessage) {
 		String strActualMessage = this.getAutoclosableSuccessMessage();
 		System.out.println("actual message :" + strActualMessage);
-		System.out.println("expected message :" + strExpectedMessage);
 		Assert.assertTrue(strActualMessage.equals(strExpectedMessage));
 
 	}
@@ -94,80 +97,53 @@ public class BootstrapAlert {
 		Assert.assertTrue(strActualValue.trim().equals(strExpectedMessage));
 	}
 
-	// button3
-	public String getAutoclosableWarningMessage() {
-		String strAutoActualmsg = objBaseTest.getDriver()
-				.findElement(By
-						.xpath("//div[contains(text(),'an autocloseable warning message. I will hide in 3 seconds.')]"))
-				.getText();
-		System.out.println("auto Actual msg :" + strAutoActualmsg);
-		return objBaseTest.getDriver()
-				.findElement(By
-						.xpath("//div[contains(text(),'an autocloseable warning message. I will hide in 3 seconds.')]"))
-				.getText();
+	// button3(verified Using isDisplayed method)
+	
+	public void verifyAutoclosableWarningMessage(){
+		By loc_AutoclosableWarningMessage= By.xpath("//div[contains(text(),'an autocloseable warning message. I will hide in 3 seconds.')]");
+		objBaseTest.checkElementVisibility(loc_AutoclosableWarningMessage, 3);
+		Assert.assertTrue(objBaseTest.checkMessageDisplayed(loc_AutoclosableWarningMessage));
 	}
-
-	public void verifyAutoclosableWarningMessage(String strExpectedMessage) {
-		String strActualMessage = this.getAutoclosableWarningMessage();
-		System.out.println("actual message :" + strActualMessage);
-		System.out.println("expected message :" + strExpectedMessage);
-		Assert.assertTrue(strActualMessage.equals(strExpectedMessage));
-
+	
+	// button4(verified Using isDisplayed method)
+	
+	public void verifyNormalWarningMessage(){
+		By loc_NormalWarningMessage = By.xpath("//div[@class='alert alert-warning alert-normal-warning']");
+		objBaseTest.checkElementVisibility(loc_NormalWarningMessage, 5);
+		Assert.assertTrue(objBaseTest.checkMessageDisplayed(loc_NormalWarningMessage));
 	}
+	
 
-	// button4
-	public String getNormalWarningMessage() {
-		String strActualMessage = objBaseTest.getDriver()
-				.findElement(By.xpath("//div[@class='alert alert-warning alert-normal-warning']")).getText();
-		System.out.println("Actual message : " + strActualMessage);
-		return strActualMessage;
+	// button5(verified using list)
+	
+	public void verifyAutoclosableDangerMessage(){
+		By loc_AutoclosableDangerMessage = By.xpath("//div[contains(text(),'an autocloseable danger message. I will hide in 5 seconds.')]");
+
+		String strAutoclosableDangerMessage ="I'm an autocloseable danger message. I will hide in 5 seconds.";
+	      // identify elements with text()
+	      List<WebElement> autoclosableDangerMessage= objBaseTest.getDriver().findElements(loc_AutoclosableDangerMessage);
+	      Assert.assertTrue(autoclosableDangerMessage.size()!=0);
+	      Assert.assertTrue(objBaseTest.getDriver().getPageSource().contains(strAutoclosableDangerMessage));
+	     
+	  
 	}
+	
 
-	public void verifyNormalWarningMessage(String strExpectedMessage) {
-		String strText = this.getNormalWarningMessage();
-		String strValue = strText.replace("×", " ");
-		String strActualValue = strValue.trim();
-		System.out.println("ActualValueMessage : " + strActualValue.trim());
-		Assert.assertTrue(strActualValue.trim().equals(strExpectedMessage));
+	// button6(verified using list)
+	
+	By loc_NormalDangerMessage = By.xpath("//div[@class='alert alert-danger alert-normal-danger']");
+	
+	public void verifyNormalDangerMessage(String strNormalDangerMessage){
+	      // identify elements with text()
+	      List<WebElement> autoclosableDangerMessage= objBaseTest.getDriver().findElements(loc_NormalDangerMessage);
+	      // verify list size
+	      if ( autoclosableDangerMessage.size() > 0){
+	         System.out.println("Text: " + strNormalDangerMessage + " is present. ");
+	      } else {
+	         System.out.println("Text: " + strNormalDangerMessage + " is not present. ");
+	      }
 	}
-
-	// button5
-	public String getAutoclosableDangerMessage() {
-		String strAutoActualmsg = objBaseTest.getDriver()
-				.findElement(By
-						.xpath("//div[contains(text(),'an autocloseable danger message. I will hide in 5 seconds.')]"))
-				.getText();
-		System.out.println("auto Actual msg :" + strAutoActualmsg);
-		return objBaseTest.getDriver()
-				.findElement(By
-						.xpath("//div[contains(text(),'an autocloseable danger message. I will hide in 5 seconds.')]"))
-				.getText();
-	}
-
-	public void verifyAutoclosableDangerMessage(String strExpectedMessage) {
-		String strActualMessage = this.getAutoclosableDangerMessage();
-		System.out.println("actual message :" + strActualMessage);
-		System.out.println("expected message :" + strExpectedMessage);
-		Assert.assertTrue(strActualMessage.equals(strExpectedMessage));
-
-	}
-
-	// button6
-	public String getNormalDangerMessage() {
-		String strActualMessage = objBaseTest.getDriver()
-				.findElement(By.xpath("//div[@class='alert alert-danger alert-normal-danger']")).getText();
-		System.out.println("Actual message : " + strActualMessage);
-		return strActualMessage;
-	}
-
-	public void verifyNormalDangerMessage(String strExpectedMessage) {
-		String strText = this.getNormalDangerMessage();
-		String strValue = strText.replace("×", " ");
-		String strActualValue = strValue.trim();
-		System.out.println("ActualValueMessage : " + strActualValue.trim());
-		Assert.assertTrue(strActualValue.trim().equals(strExpectedMessage));
-	}
-
+	
 	// button7
 	public String getAutoclosableInfoMessage() {
 		String strAutoActualmsg = objBaseTest.getDriver()
@@ -189,7 +165,7 @@ public class BootstrapAlert {
 
 	}
 
-	// button8
+	// button8(Using assertEquals)
 	public String getNormalInfoMessage() {
 		String strActualMessage = objBaseTest.getDriver()
 				.findElement(By.xpath("//div[@class='alert alert-info alert-normal-info']")).getText();
@@ -201,7 +177,8 @@ public class BootstrapAlert {
 		String strText = this.getNormalInfoMessage();
 		String strValue = strText.replace("×", " ");
 		String strActualValue = strValue.trim();
-		System.out.println("ActualValueMessage : " + strActualValue.trim());
-		Assert.assertTrue(strActualValue.trim().equals(strExpectedMessage));
+		String ExpectedTitle = "I'm a normal info message. To close use the appropriate button.";
+		Assert.assertEquals(ExpectedTitle, strActualValue);
+		
 	}
 }

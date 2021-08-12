@@ -47,17 +47,18 @@ public class BootstrapAlertTest extends BaseTest {
 	@Test(priority = 4)
 	public void TC_ID_102_verifyAutoClosableWarningMessageIsDisplayed() {
 		objBootstrapAlert.selectBootstrapButton(objconfig.getProperty("strAutoclosableWarningMessage"));
-		objBootstrapAlert.verifyAutoclosableWarningMessage(objconfig.getProperty("strExpectedMessage_3"));
+		objBootstrapAlert.verifyAutoclosableWarningMessage();
+		//objBootstrapAlert.verifyAutoclosableWarningMessage(objconfig.getProperty("strExpectedMessage_3"));
 	}
 	@Test(priority = 5)
 	public void TC_ID_102_verifyNormalWarningMessageIsDisplayed() {
 		objBootstrapAlert.selectBootstrapButton(objconfig.getProperty("strnormalWarningMessage"));
-		objBootstrapAlert.verifyNormalWarningMessage(objconfig.getProperty("strExpectedMessage_4"));
+		objBootstrapAlert.verifyNormalWarningMessage();
 	}
 	@Test(priority = 6)
 	public void TC_ID_102_verifyAutoclosableDangerMessageIsDisplayed() {
 		objBootstrapAlert.selectBootstrapButton(objconfig.getProperty("strAutoClosableDanger"));
-		objBootstrapAlert.verifyAutoclosableDangerMessage(objconfig.getProperty("strExpectedMessage_5"));
+		objBootstrapAlert.verifyAutoclosableDangerMessage();
 	}
 	@Test(priority = 7)
 	public void TC_ID_102_verifyNormalDangerMessageIsDisplayed() {
